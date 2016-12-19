@@ -6,13 +6,9 @@ source packages.tcl
 # Date:   12/19/2016
 ######################################################
 
-set stage                1
-set pre                  [expr $stage - 1]
-if {$stage > 1} {
-    set isRestart true
-} else {
-    set isRestart false
-}
+set stage     2
+set pre       [expr $stage - 1]
+set isRestart [expr $stage > 1 ? true : false]
 
 set io_params [dict create \
         first_time_step 0 \
@@ -45,14 +41,13 @@ set grid_params [list \
 
 set temperature    310
 set save_freq      5000
-set em_steps       400
-set md_steps       250000
+set md_steps       2500000
 
 set box_params [dict create \
-    size           {161.0 161.0 100.0} \
-    center         {0 0 0} \
-    isRestart      $isRestart \
-]
+        size           {161.0 161.0 100.0} \
+        center         {0 0 0} \
+        isRestart      $isRestart \
+    ]
 
 set force_fields [list \
       ../forcefield/par_all36_prot.prm \
@@ -105,9 +100,5 @@ exec mkdir -p   "../output/md${stage}"
 
 ::namd::restrain $restraints  
 ::namd::gridForce $grid_params
-
-margin 10.
-
-minimize   $em_steps
-reinitvels $temperature
-run        $md_steps 
+margin 5.
+run $md_steps 

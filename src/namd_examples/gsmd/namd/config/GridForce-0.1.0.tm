@@ -12,13 +12,16 @@ namespace eval ::namd {namespace export gridForce}
 #   scaling_column ("O") - column in pdb file that specifies
 #           the scaling factor
 #   charge_column ("B") - column in pdb file that specifies
-#           the charge 
+#           the charge
+#   volt ("no") - whether to use eV as unit for grid potential
 # ------------------------------------------------------
 proc ::namd::gridForce {grid_params} {
     set defaults [dict create \
         scaling_column "O" \
         charge_column "B" \
+        volt "no" \
     ]
+    
     if {[llength $grid_params] > 0} {
         mgridForce on
         set ccc 0
@@ -32,6 +35,7 @@ proc ::namd::gridForce {grid_params} {
             mgridForceFile      $tag     [dict get $p label]
             mgridForceCol       $tag     O
             mgridForceChargeCol $tag     B
+            mgridForceVolts     $tag     [dict get $p volt]
             mgridForcePotFile   $tag     [dict get $p dx]
             mgridForceScale     $tag     $sx $sy $sz
             mgridForceCont1     $tag     $pbc_x

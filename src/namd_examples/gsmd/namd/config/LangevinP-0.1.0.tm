@@ -6,23 +6,25 @@ namespace eval ::namd {namespace export LangevinP}
 # grid_params: a dictionary with the following keys:
 #   flexible_cell - whether to decouple pressure control in each dimension
 #   constant_area - whether to keep X-Y plane area constant
-#   constant_ratio - whether to key box expansion ratio constant
+#   constant_ratio - whether to key X-Y plane ratio constant
 #   group ("yes") - whether to use hydrogen-group based pseudo-molecular virial
 #                   and kinetic energy. 
-#   target (1.01325) - target pressure in bars
-#   period (100) - Piston period (2 fs/step * 100 = 200 fs)
+#   target (1.01325  bar) - target pressure in bars
+#   period (200 fs) - Piston period
 #                   Recommend 200 fs piston periold as suggested by 
 #                   http://www.ks.uiuc.edu/Research/namd/2.10/ug/node37.html
-#   decay (50) - piston oscillation decay time (2 fs/step * 50 = 100 fs)
+#                   Larger number means slower fluctuation.
+#   decay (100 fs) - piston oscillation decay time
 #               Recommend 100 fs piston decay time as suggested by 
 #               http://www.ks.uiuc.edu/Research/namd/2.10/ug/node37.html
+#               Smaller value means larger random forces and increased coupling to bath
 # ------------------------------------------------------
 proc ::namd::LangevinP {params} {
     set defaults [dict create \
         group    "yes" \
         target    1.01325 \
-        period    100. \
-        decay     50. \
+        period    200. \
+        decay     100. \
     ]
     
     set p [dict merge $defaults $params]

@@ -10,7 +10,8 @@ namespace eval ::namd {namespace export outputFrequency}
 #---------------------------------------------------
 proc ::namd::LangevinT {params} {
     set defaults [dict create \
-        damping 1
+        damping 1 \
+        couple_H "off" \
     ]
     
     set p [dict merge $defaults $params]
@@ -22,4 +23,5 @@ proc ::namd::LangevinT {params} {
     langevin            on              
     langevinTemp        [dict get $p "T"]
     langevinDamping     [dict get $p "damping"]
+    langevinHydrogen    [dict get $p "couple_H"]
 }
