@@ -7,12 +7,8 @@ source packages.tcl
 ######################################################
 
 set stage                1
-set pre                  [expr $stage - 1]
-if {$stage > 1} {
-    set isRestart true
-} else {
-    set isRestart false
-}
+set pre       [expr $stage - 1]
+set isRestart [expr $stage > 1 ? true : false]
 
 set io_params [dict create \
         first_time_step 0 \
@@ -27,8 +23,8 @@ set io_params [dict create \
 
 set restraints [list \
         [dict create \
-            ref       "../molecule/backbone_labels.pdb" \
-            label     "../molecule/backbone_labels.pdb" \
+            ref       "../molecule/backbone.pdb" \
+            label     "../molecule/backbone.pdb" \
             scaling   1 \
             column    "B" \
         ] \
@@ -36,7 +32,7 @@ set restraints [list \
 
 set grid_params [list \
         [dict create \
-            label     "../molecule/water_labels.pdb" \
+            label     "../molecule/grid.pdb" \
             dx        "../map/map.dx" \
             pbc       {"yes" "yes" "yes"} \
             scaling   {1 1 1} \
