@@ -9,6 +9,9 @@ namespace eval ::namd {namespace export harmonicRestraint}
 #   column - which column contains the labels
 #   scaling - scaling of the restraining forces
 #   exponent - exponent for constraints
+#   x (on) - restraints along x
+#   y (on) - restraints along y
+#   z (on) - restraints along z
 #----------------------------------------------------------------------
 proc ::namd::harmonicRestraint {params} {
     set defaults [dict create \
@@ -17,6 +20,9 @@ proc ::namd::harmonicRestraint {params} {
         column "undefined" \
         scaling 1.0 \
         exponent  2 \
+        x on \
+        y on \
+        z on \
     ]
 
     assertDictKeyLegal $defaults $params "::namd::harmonicRestraint"
@@ -28,4 +34,8 @@ proc ::namd::harmonicRestraint {params} {
     conskfile         [dict get $p label]
     conskcol          [dict get $p column]
     constraintScaling [dict get $p scaling]
+    selectConstraints on
+    selectConstrX     [dict get $p x]
+    selectConstrY     [dict get $p y]
+    selectConstrZ     [dict get $p z]
 }

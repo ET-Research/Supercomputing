@@ -8,12 +8,13 @@ namespace eval ::namd {namespace export IO}
 #   coordinates (undefined) -- e.g., my.pdb
 #   output_prefix (undefined) -- output file prefix
 #   input_prefix (undefined) -- input file prefix
-#   first_time_step (0) - first time step
+#   first_time_step (0) - (optional) first time step
 #   isRestart (false) - whether this is a restart
+#----------------------------------------------------
 proc ::namd::IO {params} {
     set defaults [dict create \
-        isRestart      false \
-        first_time_step 0 \
+        isRestart       false \
+        first_time_step undefined \
         structure       undefined \
         coordinates     undefined \
         output_prefix   undefined \
@@ -22,14 +23,24 @@ proc ::namd::IO {params} {
 
     assertDictKeyLegal $defaults $params "::namd::IO"
     set p [dict merge $defaults $params]
-    firsttimestep   [dict get $p first_time_step]
+    set input_prefix [dict get $p input_prefix]
+    
+    if {[dict get $p isRestart] == false} {
+        firsttimestep 0
+    } else {
+        if {![string equal [dict get $p first_time_step] undefined]} {
+            firsttimestep   [dict get $p first_time_step]
+        } else {
+            firsttimestep   [::namd::lastTimeStep "${input_prefix}.xsc"]
+        }
+    }
+
     structure       [dict get $p structure]
     coordinates     [dict get $p coordinates]
     outputname      [dict get $p output_prefix]
     if {[dict get $p "isRestart"] == true} {
-        binCoordinates [dict get $p "${input_prefix}.coor"]
-        binVelocities  [dict get $p "${input_prefix}.vel"]
-        extendedSystem [dict get $p "${input_prefix}.xsc"]
+        binCoordinates   "${input_prefix}.coor"
+        binVelocities    "${input_prefix}.vel"
+        extendedSystem   "${input_prefix}.xsc"
     }
-    
 }

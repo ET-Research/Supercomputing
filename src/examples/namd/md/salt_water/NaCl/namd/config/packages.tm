@@ -17,3 +17,6 @@ source config/IO-0.1.0.tm
 source config/GB-0.1.0.tm
 source config/extraBonded-0.1.0.tm
 source config/elecField-0.1.0.tm
+source config/runSMD-0.1.0.tm
+source config/runMeta-0.1.0.tm
+source config/CV-0.1.0.tm
