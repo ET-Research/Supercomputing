@@ -2,6 +2,7 @@ source config/inList-0.1.0.tm
 source config/listDiff-0.1.0.tm
 source config/assertDictKeyLegal-0.1.0.tm
 source config/lastTimeStep-0.1.0.tm
+source config/stepsToRun-0.1.0.tm
 source config/LangevinP-0.1.0.tm
 source config/LangevinT-0.1.0.tm
 source config/gridForce-0.1.0.tm
