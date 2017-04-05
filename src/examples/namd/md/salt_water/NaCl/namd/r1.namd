@@ -14,7 +14,7 @@ exec mkdir -p "../output/md${stage}"
 set temperature    310
 set save_freq      100
 set em_steps       100
-set md_steps       500
+set md_steps       1000
 
 ::namd::IO [dict create \
     first_time_step 0 \
@@ -60,9 +60,12 @@ set md_steps       500
     spacing       1.0 \
 ]
 
-::namd::LangevinT [dict create \
-    T             $temperature \
-    isRestart     $isRestart \
+::namd::T [dict create \
+    T 0 \
+    T_final $temperature \
+    step 31 \
+    freq 100 \
+    isRestart $isRestart \
 ]
 
 ::namd::LangevinP [dict create \
@@ -71,7 +74,6 @@ set md_steps       500
     constant_ratio no \
     T              $temperature \
 ]
-
 
 minimize   $em_steps
 reinitvels $temperature

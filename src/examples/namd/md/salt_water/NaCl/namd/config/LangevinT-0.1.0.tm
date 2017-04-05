@@ -20,9 +20,6 @@ proc ::namd::LangevinT {params} {
     assertDictKeyLegal $defaults $params "::namd::LangevinT"
     set p [dict merge $defaults $params]
 
-    if {[dict get $p "isRestart"] == false} {
-        temperature [dict get $p "T"]
-    } else {}
     
     langevin            on              
     langevinTemp        [dict get $p "T"]

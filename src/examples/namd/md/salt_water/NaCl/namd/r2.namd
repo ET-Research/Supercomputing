@@ -13,15 +13,13 @@ exec mkdir -p "../output/md${stage}"
 
 set temperature    310
 set save_freq      100
-set em_steps       100
-set total_steps    800
+set total_steps    1500
 set md_steps       [::namd::stepsToRun \
     $total_steps \
     "../output/md${pre}/md${pre}.restart.xsc" \
 ]
 
 ::namd::IO [dict create \
-    first_time_step 0 \
     structure       "../system/system.psf" \
     coordinates     "../system/system.pdb" \
     output_prefix   "../output/md${stage}/md${stage}" \
@@ -76,6 +74,18 @@ set md_steps       [::namd::stepsToRun \
     T              $temperature \
 ]
 
+::namd::harmonicRestraint [dict create \
+    ref "../restraint/sodium.pdb" \
+    label "../restraint/sodium.pdb" \
+    column B \
+    scaling 5.0 \
+]
 
+# gradually reduce force constant to 0
+::namd::kRun [dict create \
+    number_steps $md_steps \
+    initial 5.0 \
+    final 0 \
+    step 100 \
+]
 
-run        $md_steps 

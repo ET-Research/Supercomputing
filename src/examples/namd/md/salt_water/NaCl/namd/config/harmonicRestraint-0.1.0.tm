@@ -6,7 +6,7 @@ namespace eval ::namd {namespace export harmonicRestraint}
 # input is dictionary with the following keys:
 #   ref - a pdb file with reference positions
 #   label - a pdb file with selected atoms labeled
-#   column - which column contains the labels
+#   column - which column contains the labels (0 values means no restraint)
 #   scaling - scaling of the restraining forces
 #   exponent - exponent for constraints
 #   x (on) - restraints along x
